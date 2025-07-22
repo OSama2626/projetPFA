@@ -16,8 +16,12 @@ import ma.project.civ.mapper.KN2Mapper;
 import ma.project.civ.mapper.KN3Mapper;
 import ma.project.civ.mapper.AdminEtablissementMapper;
 import ma.project.civ.mapper.AdminMapper;
+import ma.project.civ.dto.CollaborateurDTO;
+import ma.project.civ.entities.collaborateurs.Collaborateur;
+import ma.project.civ.mapper.CollaborateurMapper;
 import ma.project.civ.repositories.users.AdminEtablissementRepository;
 import ma.project.civ.services.AuthorizationService;
+import ma.project.civ.services.CollaborateurService;
 import ma.project.civ.services.UserAppService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -34,6 +38,7 @@ import java.util.UUID;
 public class AdminController {
     private final UserAppService userAppService;
     private final AuthorizationService authorizationService;
+    private final CollaborateurService collaborateurService;
     @PostMapping("/create")
     public ResponseEntity<AdminDTO> createAdmin(Authentication authentication, @RequestBody AdminDTO adminDTO) {
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -159,6 +164,21 @@ public class AdminController {
         KN3 kn3 = KN3Mapper.toEntity(kn3DTO);
         KN3 createdKn3 = userAppService.createKn3(kn3);
         return ResponseEntity.status(HttpStatus.CREATED).body(KN3Mapper.toDto(createdKn3));
+    }
+
+    @PostMapping("/create/collaborateur")
+    public ResponseEntity<CollaborateurDTO> createCollaborateur(Authentication authentication, @RequestBody CollaborateurDTO collaborateurDTO) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        if (!authorizationService.isAdmin(authentication)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        Collaborateur collaborateur = CollaborateurMapper.toEntity(collaborateurDTO);
+        Collaborateur createdCollaborateur = collaborateurService.createCollaborateur(collaborateur);
+        return ResponseEntity.status(HttpStatus.CREATED).body(CollaborateurMapper.toDto(createdCollaborateur));
     }
 
 }
