@@ -49,4 +49,5 @@ public class GroupeDuCapitalHumain {
     private List<Version> versions = new ArrayList<>();
 
 
+
 }

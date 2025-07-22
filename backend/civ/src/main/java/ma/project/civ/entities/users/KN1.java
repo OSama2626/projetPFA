@@ -18,7 +18,7 @@ import java.util.Set;
 @DiscriminatorValue("KN1")
 public class KN1 extends UserApp{
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "service_kn1_id")
+    @JoinColumn(name = "servicex_kn1_id")
     private Service service;
 
     @ManyToOne(cascade = CascadeType.ALL)

@@ -7,18 +7,14 @@ import ma.project.civ.entities.organigramme.Etablissement;
 import ma.project.civ.entities.users.AdminEtablissement;
 import ma.project.civ.mapper.AdminEtablissementMapper;
 import ma.project.civ.repositories.organigramme.EtablissementRepository;
-import ma.project.civ.repositories.users.AdminEtablissementRepository;
 import ma.project.civ.services.AuthorizationService;
 import ma.project.civ.services.UserAppService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

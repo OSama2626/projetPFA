@@ -35,17 +35,20 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @AllArgsConstructor
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class securityConfig {
+
     private final UserAppService userAppService;
     private final PasswordEncoder passwordEncoder;
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authManager)
+            throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                 .formLogin(withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login","/refreshToken/**","/admin_etablissement/**").permitAll()
+                        .requestMatchers("/login", "/refreshToken/**", "/admin_etablissement/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilter(new jwtAuthoticationFilter(authManager))
                 .addFilterBefore(new jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -58,17 +61,18 @@ public class securityConfig {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String matricule) throws UsernameNotFoundException {
-                UserApp userApp = userAppService.getUserByMatricule(matricule).orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + matricule));;
-                Collection<GrantedAuthority> roles=new ArrayList<>();
+                UserApp userApp = userAppService.getUserByMatricule(matricule)
+                        .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + matricule));
+                Collection<GrantedAuthority> roles = new ArrayList<>();
                 roles.add(new SimpleGrantedAuthority(userApp.getDiscriminatorValue()));
-                return new User(userApp.getMatricule(), userApp.getPassword(),roles);
+                return new User(userApp.getMatricule(), userApp.getPassword(), roles);
             }
         };
     }
 
-
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, UserDetailsService userDetailsService) throws Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http, UserDetailsService userDetailsService)
+            throws Exception {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);

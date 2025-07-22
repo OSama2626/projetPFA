@@ -15,8 +15,8 @@ import ma.project.civ.services.UserAppService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -25,67 +25,66 @@ import java.util.*;
 public class authController {
     private final UserAppService userAppService;
     private final AuthorizationService authorizationService;
+    private final PasswordEncoder passwordEncoder;
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials,
-//                                   HttpServletRequest request) {
-//
-//        String matricule = credentials.get("matricule");
-//        String password = credentials.get("password");
-//
-//        // Appelle ton service pour charger l'utilisateur
-//        Optional<UserApp> userOpt = userAppService.getUserByMatricule(matricule);
-//
-//        if (userOpt.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Matricule incorrect");
-//        }
-//
-//        UserApp user = userOpt.get();
-//
-//        // Vérifie le mot de passe (tu devrais utiliser BCrypt dans un vrai cas)
-//        if (!user.getPassword().equals(password)) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Mot de passe incorrect");
-//        }
-//
-//        Algorithm algorithm = Algorithm.HMAC256(JwtUtil.SECRET);
-//
-//        String accessToken = JWT.create()
-//                .withSubject(user.getMatricule())
-//                .withExpiresAt(new Date(System.currentTimeMillis() + JwtUtil.EXPIRATION_ACCESS_TOKEN))
-//                .withIssuer(request.getRequestURL().toString())
-//                .withClaim("roles", Collections.singletonList(user.getDiscriminatorValue()))
-//                .sign(algorithm);
-//
-//        String refreshToken = JWT.create()
-//                .withSubject(user.getMatricule())
-//                .withExpiresAt(new Date(System.currentTimeMillis() + JwtUtil.EXPIRATION_REFRESH_TOKEN))
-//                .withIssuer(request.getRequestURL().toString())
-//                .sign(algorithm);
-//
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("access_token", accessToken);
-//        response.put("refresh_token", refreshToken);
-//        response.put("role", user.getDiscriminatorValue());
-//
-//        return ResponseEntity.ok(response);
-//    }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials,
+            HttpServletRequest request) {
+
+        String matricule = credentials.get("matricule");
+        String password = credentials.get("password");
+
+        Optional<UserApp> userOpt = userAppService.getUserByMatricule(matricule);
+
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Matricule incorrect");
+        }
+
+        UserApp user = userOpt.get();
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Mot de passe incorrect");
+        }
+
+        Algorithm algorithm = Algorithm.HMAC256(JwtUtil.SECRET);
+
+        String accessToken = JWT.create()
+                .withSubject(user.getMatricule())
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtUtil.EXPIRATION_ACCESS_TOKEN))
+                .withIssuer(request.getRequestURL().toString())
+                .withClaim("roles", Collections.singletonList(user.getDiscriminatorValue()))
+                .sign(algorithm);
+
+        String refreshToken = JWT.create()
+                .withSubject(user.getMatricule())
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtUtil.EXPIRATION_REFRESH_TOKEN))
+                .withIssuer(request.getRequestURL().toString())
+                .sign(algorithm);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("access_token", accessToken);
+        response.put("refresh_token", refreshToken);
+        response.put("role", user.getDiscriminatorValue());
+
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/test")
     public ResponseEntity<String> test(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
             if (authorizationService.isAdmin(authentication)) {
                 return ResponseEntity.ok("test valide pour l'admine");
-            } else if (authorizationService.isAdminEtablissement(authentication)){
+            } else if (authorizationService.isAdminEtablissement(authentication)) {
                 return ResponseEntity.ok("test valide pour l'admine d'etablissement");
-            }else if (authorizationService.isInspection(authentication)) {
+            } else if (authorizationService.isInspection(authentication)) {
                 return ResponseEntity.ok("test valide pour L'inspection");
-            }else if (authorizationService.isKN1(authentication)) {
+            } else if (authorizationService.isKN1(authentication)) {
                 return ResponseEntity.ok("test valide pour controleure KN1");
-            }else if (authorizationService.isKN2(authentication)) {
+            } else if (authorizationService.isKN2(authentication)) {
                 return ResponseEntity.ok("test valide pour controleure KN2");
-            }else if (authorizationService.isKN3(authentication)) {
+            } else if (authorizationService.isKN3(authentication)) {
                 return ResponseEntity.ok("test valide pour controleure KN3");
-            }else {
+            } else {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
                         .body("test n'est pas valide pour cette utilisateur");
             }
@@ -95,16 +94,16 @@ public class authController {
     }
 
     @GetMapping(path = "/refreshToken")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String authToken = request.getHeader(JwtUtil.HEADER_STRING);
         if (authToken != null && authToken.startsWith(JwtUtil.TOKEN_PREFIX)) {
             try {
                 String jwt = authToken.substring(JwtUtil.TOKEN_PREFIX.length());
                 Algorithm algorithm = Algorithm.HMAC256(JwtUtil.SECRET);
-                JWTVerifier jwtVerifier= JWT.require(algorithm).build();
+                JWTVerifier jwtVerifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = jwtVerifier.verify(jwt);
-                String matricule=decodedJWT.getSubject();
-                UserApp user= userAppService.getUserByMatricule(matricule).get();
+                String matricule = decodedJWT.getSubject();
+                UserApp user = userAppService.getUserByMatricule(matricule).get();
                 List<String> authorities = new ArrayList<>();
                 authorities.add(user.getDiscriminatorValue());
                 String accesstoken = JWT.create()
@@ -119,12 +118,11 @@ public class authController {
                 response.setContentType("application/json");
                 new ObjectMapper().writeValue(response.getOutputStream(), tokenMap);
 
-            }catch (Exception e){
-                response.setHeader("error-message",e.getMessage());
+            } catch (Exception e) {
+                response.setHeader("error-message", e.getMessage());
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);
             }
-        }
-        else{
+        } else {
             throw new Exception("Invalid token");
         }
 

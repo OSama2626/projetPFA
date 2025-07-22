@@ -23,6 +23,6 @@ public class Service {
     @JoinColumn(name = "edepartement_id")
     private Departement departement;
 
-    @OneToMany(mappedBy = "service")
-    private Set<Collaborateur> collaborateurs = new HashSet<>();
+//    @OneToMany(mappedBy = "service")
+//    private Set<Collaborateur> collaborateurs = new HashSet<>();
 }

@@ -40,4 +40,11 @@ public class AuthorizationServiceImp implements AuthorizationService {
         return authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("KN3"));
     }
+
+    @Override
+    public boolean isInspecteur(Authentication authentication) {
+        return authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("INSPECTOR"));
+    }
+
 }

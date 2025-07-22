@@ -25,6 +25,6 @@ public class Departement {
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Service> services = new HashSet<>();
 
-    @OneToMany(mappedBy = "departement")
-    private Set<Collaborateur> collaborateurs = new HashSet<>();
+//    @OneToMany(mappedBy = "departement")
+//    private Set<Collaborateur> collaborateurs = new HashSet<>();
 }

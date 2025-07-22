@@ -46,4 +46,5 @@ public interface UserAppService {
     public KN3 updateKn3(KN3 kn3);
     public void deleteKn3(KN3 kn3);
     public List<KN3> getAllKn3(KN3 kn3);
+
 }

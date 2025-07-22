@@ -9,4 +9,5 @@ public interface AuthorizationService {
     public boolean isKN1(Authentication authentication);
     public boolean isKN2(Authentication authentication);
     public boolean isKN3(Authentication authentication);
+    public boolean isInspecteur(Authentication authentication);
 }

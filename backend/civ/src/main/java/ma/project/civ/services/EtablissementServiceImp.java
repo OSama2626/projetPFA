@@ -13,7 +13,6 @@ import java.util.UUID;
 public class EtablissementServiceImp implements EtablissementService {
 
    private final EtablissementRepository etablissementRepository;
-
     @Override
     public List<Etablissement> getAllEtablissement() {
         return etablissementRepository.findAll();

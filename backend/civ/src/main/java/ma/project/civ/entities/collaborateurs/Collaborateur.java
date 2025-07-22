@@ -10,9 +10,6 @@ import ma.project.civ.entities.organigramme.Departement;
 import ma.project.civ.entities.organigramme.LigneHabilitation;
 import ma.project.civ.entities.organigramme.Service;
 import ma.project.civ.entities.organigramme.SiteProductionHabilitation;
-import ma.project.civ.entities.users.KN1;
-import ma.project.civ.entities.users.KN2;
-import ma.project.civ.entities.users.KN3;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -93,27 +90,10 @@ public class Collaborateur {
 
 
     @OneToMany(fetch = FetchType.EAGER)
-    private Set<EnginMoteurHabilitation> enginMoteurHabilitations = new HashSet<>();
-
-    @ManyToOne
-    @JoinColumn(name = "kn1_id")
-    private KN1 kn1;
-
-    @ManyToOne
-    @JoinColumn(name = "kn2_id")
-    private KN2 kn2;
-
-    @ManyToOne
-    @JoinColumn(name = "chef_service_planification_id")
-    private KN3 chef_service_planification;
-
-    @ManyToOne
-    @JoinColumn(name = "chef_etablissement_id")
-    private KN3 chef_etablissement;
+    private Set<EnginMoteurHabilitation> enginMoteurHabilitations =new HashSet<>();
 
     @ManyToMany(mappedBy = "collaborateurs")
     private Set<GroupeDuCapitalHumain> groupeDuCapitalHumains=new HashSet<>();
-
 
 
 }
