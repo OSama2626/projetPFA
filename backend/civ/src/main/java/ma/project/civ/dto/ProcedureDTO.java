@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class ProcedureDTO {
     private Long id;
-    private int numeroPR;
-    private String designationPR;
-    private String criteresControle;
+    private int numeroPPOP;
+    private String designationPPOP;
+    private String criteresDeControle;
     private int coefficient;
 }
