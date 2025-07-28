@@ -26,4 +26,8 @@ public class CheckListControle {
     @OneToOne
     @JoinColumn(name = "controle_a_priori_id")
     private ControleAPriori controleAPriori;
+
+@OneToOne
+@JoinColumn(name = "controle_sur_vif_id")
+private ControleSurVif controleSurVif;
 }
