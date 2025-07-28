@@ -48,7 +48,7 @@ public class securityConfig {
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                 .formLogin(withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/refreshToken/**", "/admin_etablissement/**").permitAll()
+                        .requestMatchers("/login", "/refreshToken/**", "/admin_etablissement/**", "/api/controle-a-priori/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilter(new jwtAuthoticationFilter(authManager))
                 .addFilterBefore(new jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
