@@ -1,21 +1,21 @@
 package ma.project.civ.mapper;
 
 import ma.project.civ.dto.ProcedureDTO;
-import ma.project.civ.entities.controles.Procedure;
+import ma.project.civ.entities.Procedure;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProcedureMapper {
-    public ProcedureDTO fromProcedure(Procedure procedure){
+    public ProcedureDTO fromProcedure(Procedure procedure) {
         ProcedureDTO procedureDTO = new ProcedureDTO();
-        BeanUtils.copyProperties(procedure,procedureDTO);
+        BeanUtils.copyProperties(procedure, procedureDTO);
         return procedureDTO;
     }
 
-    public Procedure fromProcedureDTO(ProcedureDTO procedureDTO){
+    public Procedure fromProcedureDTO(ProcedureDTO procedureDTO) {
         Procedure procedure = new Procedure();
-        BeanUtils.copyProperties(procedureDTO,procedure);
+        BeanUtils.copyProperties(procedureDTO, procedure);
         return procedure;
     }
 }
