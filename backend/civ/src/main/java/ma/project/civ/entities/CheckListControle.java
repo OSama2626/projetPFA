@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.Date;
 
@@ -21,13 +23,14 @@ public class CheckListControle {
     private Date editionDOC;
     private int version;
     private int rectificatifs;
-    private String criteresControles;
+    @JdbcTypeCode(SqlTypes.JSON)
+    private Object criteresControles;
 
     @OneToOne
     @JoinColumn(name = "controle_a_priori_id")
     private ControleAPriori controleAPriori;
 
-@OneToOne
-@JoinColumn(name = "controle_sur_vif_id")
-private ControleSurVif controleSurVif;
+    @OneToOne
+    @JoinColumn(name = "controle_sur_vif_id")
+    private ControleSurVif controleSurVif;
 }

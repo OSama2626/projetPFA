@@ -7,6 +7,6 @@ public class ProcedureDTO {
     private Long id;
     private int numeroPPOP;
     private String designationPPOP;
-    private String criteresDeControle;
+    private Object criteresDeControle;
     private int coefficient;
 }

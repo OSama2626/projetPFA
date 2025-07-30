@@ -12,5 +12,5 @@ public class CheckListControleDTO {
     private Date editionDOC;
     private int version;
     private int rectificatifs;
-    private String criteresControles;
+    private Object criteresControles;
 }

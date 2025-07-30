@@ -23,5 +23,5 @@ public class ControleAPosteriori {
     private String antenne;
     private String responsable;
     @OneToMany(mappedBy = "controleAPosteriori", cascade = CascadeType.ALL)
-    private List<Procedure> procedures;
+    private List<ControlProcedure> procedures;
 }
