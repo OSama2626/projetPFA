@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 @Service
 public class ControleAPosterioriMapper {
 
-    private final ProcedureMapper procedureMapper;
+    private final PPOPMapper ppopMapper;
 
-    public ControleAPosterioriMapper(ProcedureMapper procedureMapper) {
-        this.procedureMapper = procedureMapper;
+    public ControleAPosterioriMapper(PPOPMapper ppopMapper) {
+        this.ppopMapper = ppopMapper;
     }
 
     public ControleAPosterioriDTO fromControleAPosteriori(ControleAPosteriori controleAPosteriori){
@@ -22,7 +22,7 @@ public class ControleAPosterioriMapper {
         BeanUtils.copyProperties(controleAPosteriori, controleAPosterioriDTO);
         if (controleAPosteriori.getProcedures() != null) {
             controleAPosterioriDTO.setProcedures(controleAPosteriori.getProcedures().stream()
-                    .map(procedureMapper::fromProcedure)
+                    .map(ppopMapper::fromControlProcedure)
                     .collect(Collectors.toList()));
         }
         return controleAPosterioriDTO;
@@ -33,8 +33,8 @@ public class ControleAPosterioriMapper {
         BeanUtils.copyProperties(controleAPosterioriDTO, controleAPosteriori, "procedures");
         if (controleAPosterioriDTO.getProcedures() != null) {
             controleAPosteriori.setProcedures(controleAPosterioriDTO.getProcedures().stream()
-                    .map(procedureDTO -> {
-                        ControlProcedure procedure = procedureMapper.fromProcedureDTO(procedureDTO);
+                    .map(ppopDTO -> {
+                        ControlProcedure procedure = ppopMapper.fromPPOPDTO(ppopDTO);
                         procedure.setControleAPosteriori(controleAPosteriori);
                         return procedure;
                     })

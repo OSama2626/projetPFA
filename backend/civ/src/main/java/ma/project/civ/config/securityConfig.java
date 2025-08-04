@@ -2,7 +2,7 @@ package ma.project.civ.config;
 
 import lombok.AllArgsConstructor;
 import ma.project.civ.config.filters.jwtAuthorizationFilter;
-import ma.project.civ.config.filters.jwtAuthoticationFilter;
+import ma.project.civ.config.filters.jwtAuthenticationFilter;
 import ma.project.civ.entities.users.UserApp;
 import ma.project.civ.services.UserAppService;
 import org.springframework.context.annotation.Bean;
@@ -48,9 +48,9 @@ public class securityConfig {
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                 .formLogin(withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/refreshToken/**", "/admin_etablissement/**", "/api/controle-a-priori/**", "/api/controle-sur-vif/**").permitAll()
+                        .requestMatchers("/login", "/refreshToken/**", "/admin_etablissement/**").permitAll()
                         .anyRequest().authenticated())
-                .addFilter(new jwtAuthoticationFilter(authManager))
+                .addFilter(new jwtAuthenticationFilter(authManager))
                 .addFilterBefore(new jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

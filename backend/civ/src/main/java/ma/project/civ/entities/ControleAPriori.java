@@ -24,9 +24,9 @@ public class ControleAPriori {
     private String antenne;
     private String responsable;
 
-    @OneToMany(mappedBy = "controleAPriori", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "controleAPriori", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Procedure> procedures;
 
-    @OneToOne(mappedBy = "controleAPriori", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "controleAPriori", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private CheckListControle checkListControle;
 }

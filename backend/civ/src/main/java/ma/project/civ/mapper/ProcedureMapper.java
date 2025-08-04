@@ -1,21 +1,18 @@
 package ma.project.civ.mapper;
 
 import ma.project.civ.dto.ProcedureDTO;
-import ma.project.civ.entities.controles.ControlProcedure;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
+import ma.project.civ.entities.Procedure;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-@Service
-public class ProcedureMapper {
-    public ProcedureDTO fromProcedure(ControlProcedure procedure) {
-        ProcedureDTO procedureDTO = new ProcedureDTO();
-        BeanUtils.copyProperties(procedure, procedureDTO);
-        return procedureDTO;
-    }
+@Mapper(componentModel = "spring")
+public interface ProcedureMapper {
 
-    public ControlProcedure fromProcedureDTO(ProcedureDTO procedureDTO) {
-        ControlProcedure procedure = new ControlProcedure();
-        BeanUtils.copyProperties(procedureDTO, procedure);
-        return procedure;
-    }
+    @Mapping(target = "controleAPriori", ignore = true)
+    @Mapping(target = "controleSurVif", ignore = true)
+    @Mapping(target = "criteresControle", expression = "java(ma.project.civ.mapper.JsonMapperUtil.objectToString(dto.getCriteresDeControle()))")
+    Procedure toEntity(ProcedureDTO dto);
+
+    @Mapping(target = "criteresDeControle", expression = "java(ma.project.civ.mapper.JsonMapperUtil.stringToMap(entity.getCriteresControle()))")
+    ProcedureDTO toDto(Procedure entity);
 }

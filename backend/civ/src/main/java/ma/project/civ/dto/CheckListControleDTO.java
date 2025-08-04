@@ -3,6 +3,7 @@ package ma.project.civ.dto;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.Map;
 
 @Data
 public class CheckListControleDTO {
@@ -12,5 +13,5 @@ public class CheckListControleDTO {
     private Date editionDOC;
     private int version;
     private int rectificatifs;
-    private Object criteresControles;
+    private Map<String, Object> criteresControles;
 }

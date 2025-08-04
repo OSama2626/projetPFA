@@ -3,6 +3,7 @@ package ma.project.civ.config.filters;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -41,15 +42,15 @@ public class jwtAuthorizationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authenticationToken=
                             new UsernamePasswordAuthenticationToken(matricule,null,authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    filterChain.doFilter(request, response);
 
-                }catch (Exception e){
-                    response.setHeader("error-message",e.getMessage());
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                } catch (JWTVerificationException e) {
+                    // Invalid token
+                    response.setHeader("error-message", e.getMessage());
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    return; // Stop filter chain execution
                 }
             }
-            else{
-                filterChain.doFilter(request, response);
-            }
-        }}
+            filterChain.doFilter(request, response);
+        }
+    }
 }

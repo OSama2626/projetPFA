@@ -13,5 +13,5 @@ public class ControleAPosterioriDTO {
     private String centre;
     private String antenne;
     private String responsable;
-    private List<ProcedureDTO> procedures;
+    private List<PPOPDTO> procedures;
 }

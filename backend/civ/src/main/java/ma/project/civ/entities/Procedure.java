@@ -23,7 +23,7 @@ public class Procedure {
     @JoinColumn(name = "controle_a_priori_id")
     private ControleAPriori controleAPriori;
 
-@ManyToOne
-@JoinColumn(name = "controle_sur_vif_id")
-private ControleSurVif controleSurVif;
+    @ManyToOne
+    @JoinColumn(name = "controle_sur_vif_id")
+    private ControleSurVif controleSurVif;
 }

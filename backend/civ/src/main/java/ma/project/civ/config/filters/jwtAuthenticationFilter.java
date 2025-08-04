@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.io.IOException;
 import java.util.*;
 @AllArgsConstructor
-public class jwtAuthoticationFilter extends UsernamePasswordAuthenticationFilter {
+public class jwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     AuthenticationManager authenticationManager;
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {

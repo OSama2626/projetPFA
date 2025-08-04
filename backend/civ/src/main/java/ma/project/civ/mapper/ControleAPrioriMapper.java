@@ -4,6 +4,7 @@ import ma.project.civ.dto.ControleAPrioriDTO;
 import ma.project.civ.entities.ControleAPriori;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+// Add the new mapper to the 'uses' list
+@Mapper(componentModel = "spring", uses = {ProcedureMapper.class, CheckListControleMapper.class})
 public interface ControleAPrioriMapper extends GenericMapper<ControleAPriori, ControleAPrioriDTO> {
 }
