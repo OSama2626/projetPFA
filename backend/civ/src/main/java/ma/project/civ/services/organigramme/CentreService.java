@@ -1,13 +1,13 @@
 package ma.project.civ.services.organigramme;
 
+import ma.project.civ.dto.CentreDTO;
 import ma.project.civ.entities.organigramme.Centre;
 
-
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 public interface CentreService {
-    public List<Centre> getAllCentre();
-    public Centre getCentreById(UUID id);
-    public Centre createCentre(Centre centre);
+    List<CentreDTO> getAllCentres();
+    Optional<Centre> findById(Long id);
+    Centre save(Centre centre);
 }

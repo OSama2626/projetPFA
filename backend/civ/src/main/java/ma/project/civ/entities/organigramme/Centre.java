@@ -23,7 +23,7 @@ public class Centre {
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Antenne> antennes = new HashSet<>();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "etablissement_id")
     private Etablissement etablissement;
 }

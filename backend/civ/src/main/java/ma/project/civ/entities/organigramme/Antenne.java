@@ -18,7 +18,7 @@ public class Antenne {
     @Column(name = "nom" , nullable = false , unique = true)
     private String nom;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "centre_id")
     private Centre centre;
 }
