@@ -17,10 +17,11 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "nom", nullable = false, unique = true)
     private String nom;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "edepartement_id")
+    @ManyToOne
+    @JoinColumn(name = "departement_id")
     private Departement departement;
 
 //    @OneToMany(mappedBy = "service")

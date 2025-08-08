@@ -1,0 +1,13 @@
+package ma.project.civ.dto;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
+public class AntenneCreateRequest {
+    @NotEmpty
+    private String nom;
+    @NotNull
+    private Long centreId;
+}

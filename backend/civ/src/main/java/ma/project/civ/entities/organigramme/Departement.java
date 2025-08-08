@@ -19,7 +19,7 @@ public class Departement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nom")
+    @Column(name = "nom", nullable = false, unique = true)
     private String nom;
 
     @OneToMany(fetch = FetchType.EAGER)
