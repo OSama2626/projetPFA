@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import api from '../api';
+
 const LoginPage = ({ onLogin }) => {
   const [form, setForm] = useState({
     matricule: '',
@@ -18,27 +19,44 @@ const LoginPage = ({ onLogin }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    // e.preventDefault();
-    // setLoading(true);
-    // setError(null);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-    // console.log(form.matricule)
-    // console.log(form.password)
-    // // Exemple de vérification simplifiée
-    // if (form.username == 'admin' && form.password == 'oncf123') {
-    //   // setTimeout(() => {
-    //   //   onLogin(); // Appel du callback
-    //   //   setLoading(false);
-        
-    //   // }, 800);
-    //   console.log('sxdrcfvgbhnj,k')
+    try {
+      const response = await api.post('/login', form);
+      const { access_token, refresh_token, role } = response.data;
+
+      // Store tokens and role in local storage or state management
+      localStorage.setItem('accessToken', access_token);
+      localStorage.setItem('refreshToken', refresh_token);
+      localStorage.setItem('userRole', role);
       
-    // } else {
-    //   setError("Matricule ou mot de passe incorrect");
-    //   setLoading(false);
-    // }
-    navigate('/dashboard');
+      if(onLogin) onLogin(); // Call the callback
+
+      // Redirect based on role
+      switch (role) {
+        case 'ADMIN':
+          navigate('/admin/dashboard');
+          break;
+        case 'ADMIN_ETABLISSEMENT':
+          navigate('/admin-etablissement/dashboard');
+          break;
+        // Add cases for other roles if needed
+        default:
+          navigate('/dashboard'); // Default dashboard
+      }
+
+    } catch (err) {
+      if (err.response && err.response.data) {
+        setError(err.response.data);
+      } else {
+        setError("Une erreur s'est produite lors de la connexion.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

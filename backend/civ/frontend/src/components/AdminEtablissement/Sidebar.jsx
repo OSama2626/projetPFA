@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Icons
-import ChartFillIcon from '../../Assets/icons/Chart_fill.png';
-import StructureIcon from '../../Assets/icons/Structure.png';
-import UserIcon from '../../Assets/icons/User.png';
-import MaterielIcon from '../../Assets/icons/Materiel.png';
-import FolderIcon from '../../Assets/icons/Folder.png';
-import LogoutIcon from '../../Assets/icons/Logout.png';
-import ControlIcon from '../../Assets/icons/control.png';
-import OncfIcon from '../../Assets/icons/oncf.png';
+import ChartFillIcon from '../../assets/icons/Chart_fill.png';
+import StructureIcon from '../../assets/icons/Structure.png';
+import UserIcon from '../../assets/icons/User.png';
+import MaterielIcon from '../../assets/icons/Materiel.png';
+import FolderIcon from '../../assets/icons/Folder.png';
+import LogoutIcon from '../../assets/icons/Logout.png';
+import ControlIcon from '../../assets/icons/control.png';
+import OncfIcon from '../../assets/icons/oncf.png';
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
