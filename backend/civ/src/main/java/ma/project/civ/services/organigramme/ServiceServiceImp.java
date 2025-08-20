@@ -2,7 +2,6 @@ package ma.project.civ.services.organigramme;
 
 import lombok.AllArgsConstructor;
 import ma.project.civ.dto.ServiceDTO;
-import ma.project.civ.entities.organigramme.Service;
 import ma.project.civ.mapper.ServiceMapper;
 import ma.project.civ.repositories.organigramme.ServiceRepository;
 import org.springframework.stereotype.Service;
@@ -27,12 +26,12 @@ public class ServiceServiceImp implements ServiceService {
     }
 
     @Override
-    public Optional<Service> findById(Long id) {
+    public Optional<ma.project.civ.entities.organigramme.Service> findById(Long id) {
         return serviceRepository.findById(id);
     }
 
     @Override
-    public Service save(ma.project.civ.entities.organigramme.Service service) {
+    public ma.project.civ.entities.organigramme.Service save(ma.project.civ.entities.organigramme.Service service) {
         return serviceRepository.save(service);
     }
 }

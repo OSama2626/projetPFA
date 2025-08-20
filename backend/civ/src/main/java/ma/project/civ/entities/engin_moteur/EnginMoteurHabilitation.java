@@ -19,6 +19,9 @@ public abstract class EnginMoteurHabilitation {
     @Column(name = "nom_de_serie")
     private String serie;
 
+    @Column(name = "numero")
+    private Integer numero;
+
 
     public String getDiscriminatorValue() {
         DiscriminatorValue annotation = this.getClass().getAnnotation(DiscriminatorValue.class);

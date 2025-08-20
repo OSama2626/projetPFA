@@ -4,6 +4,7 @@ import ma.project.civ.entities.ControleAPriori;
 import ma.project.civ.repositories.ControleAPrioriRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,13 +16,20 @@ public class ControleAPrioriServiceImpl implements ControleAPrioriService {
     private ControleAPrioriRepository controleAPrioriRepository;
 
     @Override
+    @Transactional
     public ControleAPriori save(ControleAPriori controleAPriori) {
+        if (controleAPriori.getProcedures() != null) {
+            controleAPriori.getProcedures().forEach(procedure -> procedure.setControleAPriori(controleAPriori));
+        }
+        if (controleAPriori.getCheckListControle() != null) {
+            controleAPriori.getCheckListControle().setControleAPriori(controleAPriori);
+        }
         return controleAPrioriRepository.save(controleAPriori);
     }
 
     @Override
     public List<ControleAPriori> findAll() {
-        return controleAPrioriRepository.findAll();
+        return controleAPrioriRepository.findAllWithDetails();
     }
 
     @Override

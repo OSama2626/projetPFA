@@ -7,4 +7,10 @@ import org.mapstruct.Mapper;
 // Add the new mapper to the 'uses' list
 @Mapper(componentModel = "spring", uses = {ProcedureMapper.class, CheckListControleMapper.class})
 public interface ControleAPrioriMapper extends GenericMapper<ControleAPriori, ControleAPrioriDTO> {
+
+    @Override
+    ControleAPriori toEntity(ControleAPrioriDTO dto);
+
+    @Override
+    ControleAPrioriDTO toDto(ControleAPriori entity);
 }

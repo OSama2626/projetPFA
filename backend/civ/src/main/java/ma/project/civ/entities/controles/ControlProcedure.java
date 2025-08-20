@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.util.List;
+import java.util.Map;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -18,7 +21,7 @@ public class ControlProcedure {
     private int numeroPPOP;
     private String designationPPOP;
     @JdbcTypeCode(SqlTypes.JSON)
-    private Object criteresDeControle;
+    private List<Map<String, Object>> criteresDeControle;
     private int coefficient;
     @ManyToOne
     @JoinColumn(name = "controle_aposteriori_id")

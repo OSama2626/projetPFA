@@ -39,7 +39,7 @@ public class CheckListControle {
     private int rectificatifs;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "criteres_controles", columnDefinition = "jsonb") // For PostgreSQL
+    @Column(name = "criteres_controles") // For PostgreSQL
     private Map<String, Object> criteresControles;
 
     @OneToOne(fetch = FetchType.LAZY) // Added fetch type for performance
